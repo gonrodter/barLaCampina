@@ -1,0 +1,234 @@
+--Borrado de tablas
+DROP TABLE USUARIOS CASCADE CONSTRAINTS;
+DROP TABLE Empleados CASCADE CONSTRAINTS;
+DROP TABLE Agua CASCADE CONSTRAINTS;
+DROP TABLE Luz CASCADE CONSTRAINTS;
+DROP TABLE PuedenTener CASCADE CONSTRAINTS;
+DROP TABLE Mesas CASCADE CONSTRAINTS;
+DROP TABLE Locales CASCADE CONSTRAINTS;
+DROP TABLE LineasCuenta CASCADE CONSTRAINTS;
+DROP TABLE Reservas CASCADE CONSTRAINTS;
+--DROP TABLE Clientes CASCADE CONSTRAINTS;
+DROP TABLE Formas CASCADE CONSTRAINTS;
+--DROP TABLE Cuentas CASCADE CONSTRAINTS;
+DROP TABLE Tapas CASCADE CONSTRAINTS;
+DROP TABLE Bebidas CASCADE CONSTRAINTS;
+DROP TABLE Ejemplares CASCADE CONSTRAINTS;
+DROP TABLE LineasPedido CASCADE CONSTRAINTS;
+DROP TABLE Periodicos CASCADE CONSTRAINTS;
+DROP TABLE BajoDemanda CASCADE CONSTRAINTS;
+DROP TABLE Productos CASCADE CONSTRAINTS;
+DROP TABLE Proveedores CASCADE CONSTRAINTS;
+DROP TABLE AguaLuz CASCADE CONSTRAINTS;
+--DROP TABLE PEDIDOS CASCADE CONSTRAINTS;
+
+
+--Creacion de tablas
+CREATE TABLE USUARIOS (
+	USUARIO VARCHAR2(30) NOT NULL,
+	PASS VARCHAR2(30) NOT NULL,
+	OID_USUARIO INTEGER NOT NULL,
+	PRIMARY KEY (OID_USUARIO) );
+
+CREATE TABLE PROVEEDORES ( 
+            NombreProveedores VARCHAR2(20)     NOT NULL,
+            ApellidosProveedores VARCHAR2(40)  NOT NULL,
+            CorreoProveedores VARCHAR2(40)  NOT NULL UNIQUE,
+            TelefonoProveedores VARCHAR2(9)        NOT NULL UNIQUE,
+            OID_PROV INTEGER NOT NULL,
+        PRIMARY KEY (OID_PROV)
+);
+
+CREATE TABLE Productos (
+            OIDPROD INTEGER NOT NULL,
+            OID_PROV INTEGER NOT NULL,
+            NombreProductos VARCHAR2(20)     NOT NULL,
+            CantidadProductos VARCHAR2(20)         NOT NULL,
+            Stock VARCHAR2(12),
+            CONSTRAINT STOCK_CHECK1 CHECK (Stock IN ('Disponible', 'Agotado')),
+            Categoria VARCHAR(18),
+            CONSTRAINT COMIDA CHECK (Categoria IN ('Carne', 'Legumbre', 'Pescado', 'Verdura', 'Cerveza', 'Refresco', 'Agua',
+            'BebidaAlcoholica')),
+        PRIMARY KEY (OIDPROD),
+        FOREIGN KEY (OID_PROV) REFERENCES Proveedores
+);
+
+CREATE TABLE BajoDemanda (
+            OIDBD INTEGER ,
+            OID_PROV INTEGER NOT NULL,
+            FechaBD DATE              NOT NULL,
+        PRIMARY KEY (OIDBD),
+        FOREIGN KEY (OID_PROV) REFERENCES Proveedores
+);
+
+CREATE TABLE Periodicos (
+            OIDPER INTEGER NOT NULL,
+            OID_PROV INTEGER NOT NULL,
+            FechaP DATE              NOT NULL,
+        PRIMARY KEY (OIDPER),
+        FOREIGN KEY (OID_PROV) REFERENCES Proveedores
+);
+
+--CREATE TABLE Pedidos (
+--    OIDPED INTEGER    NOT NULL,
+--    OID_PROV INTEGER,
+    
+--    PRIMARY KEY(OIDPED),
+--    FOREIGN KEY(OID_PROV) REFERENCES Proveedores
+--);
+
+CREATE TABLE LineasPedido (
+            OIDLP INTEGER        NOT NULL,
+            OIDBD INTEGER,
+            OIDPER INTEGER,
+            OIDPROD INTEGER        NOT NULL,
+            NPedido INTEGER          NOT NULL,
+            CantidadLP VARCHAR2(5)      NOT NULL,
+            PrecioLP FLOAT      NOT NULL,
+            MesLP VARCHAR2(12)       NOT NULL,
+        PRIMARY KEY(OIDLP),
+        FOREIGN KEY(OIDBD) REFERENCES BajoDemanda,
+        FOREIGN KEY(OIDPER) REFERENCES Periodicos,
+        FOREIGN KEY(OIDPROD) REFERENCES Productos
+);
+
+
+
+CREATE TABLE Ejemplares (
+            OIDEJ INTEGER        NOT NULL,
+            OIDPROD INTEGER       NOT NULL,
+            CodigoBarras VARCHAR2(14) ,
+            FechaCaducidad DATE     NOT NULL,
+        PRIMARY KEY(OIDEJ),
+        FOREIGN KEY(OIDPROD) REFERENCES Productos
+);
+
+CREATE TABLE Bebidas (
+            OIDBEB INTEGER       ,
+            PrecioBebidas FLOAT      NOT NULL,
+            NombreBebidas VARCHAR2(20)  NOT NULL,
+        PRIMARY KEY(OIDBEB)
+);
+
+CREATE TABLE Tapas (
+            OIDTAP INTEGER       ,
+            PrecioTapas FLOAT      NOT NULL,
+            NombreTapas VARCHAR2(20)    NOT NULL,
+        PRIMARY KEY(OIDTAP)
+);
+
+--CREATE TABLE Clientes (
+--            OIDCLI INTEGER      NOT NULL,
+--            NombreClientes VARCHAR2(20)     NOT NULL,
+--            ApellidosClientes VARCHAR2(40),
+--            TelefonoClientes VARCHAR2(9)        NOT NULL UNIQUE,
+--        PRIMARY KEY(OIDCLI)
+--);
+
+CREATE TABLE Reservas (
+            OIDRES INTEGER        NOT NULL,
+            NombreClientes VARCHAR2(20)     NOT NULL,
+            ApellidosClientes VARCHAR2(40),
+            TelefonoClientes VARCHAR2(9)        NOT NULL UNIQUE,
+            HoraReserva TIMESTAMP NOT NULL,
+            NumeroPersona VARCHAR2(2),
+        PRIMARY KEY(OIDRES)
+);
+
+
+--CREATE TABLE Cuentas (
+--            OIDCU INTEGER         NOT NULL,
+--            OIDRES INTEGER        ,
+--        PRIMARY KEY(OIDCU),
+--        FOREIGN KEY(OIDRES) REFERENCES Reservas
+--);
+
+CREATE TABLE Formas (
+            OIDF INTEGER         NOT NULL,
+            OIDBEB INTEGER        NOT NULL,
+            OIDTAP INTEGER        NOT NULL,
+            OIDCU INTEGER         NOT NULL,
+        PRIMARY KEY(OIDF),
+        FOREIGN KEY(OIDBEB) REFERENCES Bebidas,
+        FOREIGN KEY(OIDTAP) REFERENCES Tapas,        
+        FOREIGN KEY(OIDCU) REFERENCES Cuentas
+);
+
+CREATE TABLE LineasCuenta (
+            OIDLC INTEGER        NOT NULL,
+            OIDBEB INTEGER        ,
+            OIDTAP INTEGER        ,
+            NCuenta VARCHAR2(2)     NOT NULL,
+            CantidadLC VARCHAR2(5)      NOT NULL,
+            MesLC VARCHAR2(12)       NOT NULL,
+            NombreLC VARCHAR2(20)  ,
+        PRIMARY KEY(OIDLC),
+        FOREIGN KEY(OIDBEB) REFERENCES Bebidas,
+        FOREIGN KEY(OIDTAP) REFERENCES Tapas
+);
+
+CREATE TABLE Locales (
+            OIDLOC INTEGER       NOT NULL,
+            Alquiler VARCHAR2(20)    NOT NULL,
+            MesLocal VARCHAR2(12)       NOT NULL,
+        PRIMARY KEY(OIDLOC)
+);
+
+CREATE TABLE Mesas (
+            OIDMES INTEGER       NOT NULL,
+            OIDLOC INTEGER        NOT NULL,
+            Disponibilidad VARCHAR2(12),
+            CONSTRAINT DISPONIBILIDAD_CHECK2 CHECK (Disponibilidad IN ('Disponible', 'Reservado')),
+        PRIMARY KEY(OIDMES),
+        FOREIGN KEY(OIDLOC) REFERENCES Locales
+);
+
+CREATE TABLE PuedenTener (
+            OIDPT INTEGER       NOT NULL,
+            OIDRES INTEGER       NOT NULL,
+            OIDMES INTEGER       NOT NULL,
+        PRIMARY KEY(OIDPT),
+        FOREIGN KEY(OIDRES) REFERENCES Reservas,        
+        FOREIGN KEY(OIDMES) REFERENCES Mesas
+);
+
+--CREATE TABLE Luz (
+--            OIDL INTEGER        NOT NULL,
+--            OIDLOC INTEGER       NOT NULL,
+--            MesLuz VARCHAR2(12)       NOT NULL,
+--           CantidadLuz VARCHAR2(20)   NOT NULL,
+--        PRIMARY KEY(OIDL),
+--        FOREIGN KEY(OIDLOC) REFERENCES Locales
+--);
+--CREATE TABLE Agua (
+--            OIDA INTEGER        NOT NULL,
+--            OIDLOC INTEGER       NOT NULL,
+--            MesAgua VARCHAR2(12)       NOT NULL,
+--            CantidadAgua VARCHAR2(20)   NOT NULL,
+--        PRIMARY KEY(OIDA),
+--        FOREIGN KEY(OIDLOC) REFERENCES Locales
+--);
+
+CREATE TABLE AguaLuz (
+            OIDAL INTEGER        NOT NULL,
+            OIDLOC INTEGER       NOT NULL,
+            MesAguaLuz VARCHAR2(12)       NOT NULL,
+            CantidadAguaLuz VARCHAR2(20)   NOT NULL,
+        PRIMARY KEY(OIDAL),
+        FOREIGN KEY(OIDLOC) REFERENCES Locales
+);
+
+CREATE TABLE Empleados (
+            OIDEMP INTEGER NOT NULL,
+            OIDLOC INTEGER,
+            NombreEmpleados VARCHAR2(20)    NOT NULL,
+            ApellidosEmpleados VARCHAR2(20)    NOT NULL,
+            FechaNacimiento DATE        NOT NULL,
+            TelefonoEmpleados VARCHAR2(9),
+            CorreoEmpleados VARCHAR2(40),
+            Salario VARCHAR2(8)    NOT NULL,
+            Puesto VARCHAR2(15),
+            CONSTRAINT PUESTO_CHECK3 CHECK (Puesto IN ('Camarero', 'Chef', 'AyudanteChef','Lavaplatos')),
+        PRIMARY KEY(OIDEMP),
+        FOREIGN KEY(OIDLOC) REFERENCES Locales
+);

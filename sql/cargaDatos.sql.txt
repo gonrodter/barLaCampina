@@ -1,0 +1,36 @@
+DECLARE
+--OID_DUENO INTEGER;
+--OID_INVITADO INTEGER;
+--OID_MANUEL INTEGER;
+--OID_FRANCISCO INTEGER;
+--OID_PACO INTEGER;
+--OID_GONZALO INTEGER;
+--OID_CUENTA INTEGER;
+OID_RESERVA INTEGER;
+
+
+BEGIN
+--INSERTAR_USUARIO('Dueño', 'dueño');
+--OID_DUENO := INCRE_OIDUSUARIO.CURRVAL;
+--INSERTAR_USUARIO('Invitado', 'invitado');
+--OID_INVITADO := INCRE_OIDUSUARIO.CURRVAL;
+
+--nuevo_proveedor('Manuel', 'Gómez Salazar', 'mangomsal@gmail.com', '678901234');
+--OID_MANUEL := INCRE_OIDPROV.CURRVAL;
+
+--nuevo_proveedor('Francisco', 'Rodríguez Pérez', 'frarodper@gmail.com', '61234578');
+--OID_FRANCISCO := INCRE_OIDPROV.CURRVAL;
+
+--contratar_empleado('Paco', 'Jimenez', '1/1/1980', '912345657', 'pacorguez@gmail.com', '1000', 'Chef');
+--OID_PACO := INCRE_OIDEMP.CURRVAL;
+
+--insertar_cliente('Gonzalo', 'Bermúdez', '6506879');
+--OID_GONZALO := INCRE_OIDCLI.CURRVAL;
+
+--insertar_cuenta('', '2', '2', 'Septiembre', '2');
+--OID_CUENTA := INCRE_OIDLC.CURRVAL;
+
+insertar_reservas('Paula', 'Dominguez', '675998843', '3', '03-09-2020 21:15:19');
+OID_RESERVA := INCRE_OIDRES.CURRVAL;
+COMMIT;
+END;

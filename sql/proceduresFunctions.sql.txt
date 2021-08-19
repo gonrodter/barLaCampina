@@ -1,0 +1,399 @@
+--Inserts
+create or replace PROCEDURE insertar_gastosfijos
+(w_MES IN AGUALUZ.MESAGUALUZ%TYPE,
+w_CANTIDADAGUALUZ IN AGUALUZ.CANTIDADAGUALUZ%TYPE)
+IS
+BEGIN
+
+--INSERT INTO AGUA(OIDLOC, MESAGUA, CANTIDADAGUA)
+--VALUES (1, w_MES, w_CANTIDADAGUA);
+
+
+INSERT INTO AGUALUZ(OIDLOC, MESAGUALUZ, CANTIDADAGUALUZ)
+VALUES (1, w_MES, w_CANTIDADAGUALUZ);
+END insertar_gastosfijos;
+/
+
+create or replace PROCEDURE insertar_tapa
+(w_PRECIOTAPAS IN TAPAS.PRECIOTAPAS%TYPE,
+w_NOMBRETAPAS IN TAPAS.NOMBRETAPAS%TYPE)
+IS
+BEGIN
+--INSERT INTO TAPAS(oidtap)
+--VALUES (w_oidtap);
+--INSERT INTO BEBIDAS(oidbeb)
+--VALUES (w_oidbeb);
+INSERT INTO TAPAS(PRECIOTAPAS, NOMBRETAPAS)
+VALUES (w_PRECIOTAPAS, w_NOMBRETAPAS);
+END insertar_tapa;
+/
+
+create or replace PROCEDURE insertar_bebida
+(w_PRECIOBEBIDAS IN BEBIDAS.PRECIOBEBIDAS%TYPE,
+w_NOMBREBEBIDAS IN BEBIDAS.NOMBREBEBIDAS%TYPE)
+IS
+BEGIN
+--INSERT INTO TAPAS(oidtap)
+--VALUES (w_oidtap);
+--INSERT INTO BEBIDAS(oidbeb)
+--VALUES (w_oidbeb);
+INSERT INTO BEBIDAS(PRECIOBEBIDAS, NOMBREBEBIDAS)
+VALUES (w_PRECIOBEBIDAS, w_NOMBREBEBIDAS);
+END insertar_bebida;
+/
+
+create or replace PROCEDURE insertar_producto
+(w_OID_PROV IN PRODUCTOS.OID_PROV%TYPE,
+w_NOMBREPRODUCTOS IN PRODUCTOS.NOMBREPRODUCTOS%TYPE,
+w_CANTIDADPRODUCTOS IN PRODUCTOS.CANTIDADPRODUCTOS%TYPE,
+w_CATEGORIA IN PRODUCTOS.CATEGORIA%TYPE)
+IS
+BEGIN
+--INSERT INTO TAPAS(oidtap)
+--VALUES (w_oidtap);
+--INSERT INTO BEBIDAS(oidbeb)
+--VALUES (w_oidbeb);
+INSERT INTO PRODUCTOS(OID_PROV, NOMBREPRODUCTOS, CANTIDADPRODUCTOS, CATEGORIA)
+VALUES (w_OID_PROV, w_NOMBREPRODUCTOS, w_CANTIDADPRODUCTOS, w_CATEGORIA);
+END insertar_producto;
+/
+
+create or replace PROCEDURE insertar_pedido
+(w_OidProd IN LINEASPEDIDO.oidprod%TYPE,
+w_CANTIDADLP IN LINEASPEDIDO.CANTIDADLP%TYPE,
+w_PRECIOLP IN LINEASPEDIDO.PRECIOLP%TYPE,
+w_MesLP IN LINEASPEDIDO.MesLP%TYPE,
+w_NPEDIDO IN LINEASPEDIDO.NPEDIDO%TYPE)
+IS
+BEGIN
+--INSERT INTO TAPAS(oidtap)
+--VALUES (w_oidtap);
+--INSERT INTO BEBIDAS(oidbeb)
+--VALUES (w_oidbeb);
+INSERT INTO LINEASPEDIDO(oidprod, CANTIDADLP, PRECIOLP, MesLP, NPEDIDO)
+VALUES (w_oidprod, w_CANTIDADLP, w_PRECIOLP, w_MesLP, w_NPEDIDO);
+END insertar_pedido;
+/
+
+create or replace PROCEDURE insertar_reservas 
+(
+w_NombreClientes IN RESERVAS.NombreClientes%TYPE,
+w_ApellidosClientes IN RESERVAS.ApellidosClientes%TYPE,
+w_TelefonoClientes IN RESERVAS.TelefonoClientes%TYPE,
+w_NumeroPersona IN RESERVAS.NumeroPersona%TYPE,
+w_HoraReserva IN RESERVAS.HoraReserva%TYPE)
+IS
+BEGIN
+INSERT INTO RESERVAS(NombreClientes, ApellidosClientes, TelefonoClientes, NumeroPersona, HoraReserva)
+VALUES (w_NombreClientes, w_ApellidosClientes, w_TelefonoClientes, w_NumeroPersona, w_HoraReserva); 
+
+END insertar_reservas;
+/
+
+CREATE OR REPLACE PROCEDURE insertar_cuenta
+(w_OidBeb IN LINEASCUENTA.oidbeb%TYPE,
+w_OidTap IN LINEASCUENTA.oidtap%TYPE,
+w_CantidadLC IN LINEASCUENTA.CantidadLC%TYPE,
+w_MesLC IN LINEASCUENTA.MesLC%TYPE,
+w_NCuenta IN LINEASCUENTA.NCuenta%TYPE)
+IS
+BEGIN
+--INSERT INTO TAPAS(oidtap)
+--VALUES (w_oidtap);
+--INSERT INTO BEBIDAS(oidbeb)
+--VALUES (w_oidbeb);
+INSERT INTO LINEASCUENTA(oidbeb, oidtap, CantidadLC, MesLC, NCuenta)
+VALUES (w_oidbeb, w_oidtap, w_CantidadLC, w_MesLC, w_NCuenta);
+END insertar_cuenta;
+/
+
+CREATE OR REPLACE PROCEDURE nuevo_pedido 
+(
+w_NombreProveedores IN PROVEEDORES.NombreProveedores%TYPE,
+w_ApellidosProveedores IN PROVEEDORES.ApellidosProveedores%TYPE,
+w_Producto IN PRODUCTOS.NombreProductos%TYPE,
+w_Cantidad IN LINEASPEDIDO.CantidadLP%TYPE,
+w_Precio IN LINEASPEDIDO.PrecioLP%TYPE)
+IS
+BEGIN
+INSERT INTO PROVEEDORES(NombreProveedores, ApellidosProveedores)
+VALUES (w_NombreProveedores, w_ApellidosProveedores);
+INSERT INTO PRODUCTOS(NombreProductos)
+VALUES (w_Producto);
+INSERT INTO LINEASPEDIDO(CantidadLP, PrecioLP)
+VALUES (w_Cantidad, w_Precio);
+END nuevo_pedido;
+/
+
+CREATE OR REPLACE PROCEDURE nuevo_proveedor
+(
+w_NombreProveedores IN PROVEEDORES.NombreProveedores%TYPE,
+w_ApellidosProveedores IN PROVEEDORES.ApellidosProveedores%TYPE,
+w_CorreoProveedores IN PROVEEDORES.CorreoProveedores%TYPE,
+w_TelefonoProveedores IN PROVEEDORES.TelefonoProveedores%TYPE)
+IS
+BEGIN
+INSERT INTO PROVEEDORES(NombreProveedores, ApellidosProveedores, CorreoProveedores, TelefonoProveedores)
+VALUES (w_NombreProveedores, w_ApellidosProveedores, w_CorreoProveedores, w_TelefonoProveedores);
+END nuevo_proveedor;
+/
+
+--CREATE OR REPLACE PROCEDURE INSERTAR_CLIENTE
+--(
+--w_NombreClientes IN CLIENTES.NombreClientes%TYPE,
+--w_ApellidosClientes IN CLIENTES.ApellidosClientes%TYPE,
+--w_TelefonoClientes IN CLIENTES.TelefonoClientes%TYPE)
+--IS
+--BEGIN
+--INSERT INTO CLIENTES(NombreClientes, ApellidosClientes, TelefonoClientes)
+--VALUES (w_NombreClientes, w_ApellidosClientes, w_TelefonoClientes);
+--END INSERTAR_CLIENTE;
+--/
+
+CREATE OR REPLACE PROCEDURE contratar_empleado
+(
+w_NombreEmpleados IN EMPLEADOS.NombreEmpleados%TYPE,
+w_ApellidosEmpleados IN EMPLEADOS.ApellidosEmpleados%TYPE,
+w_FechaNacimiento IN EMPLEADOS.FechaNacimiento%TYPE,
+w_TelefonoEmpleados IN EMPLEADOS.TelefonoEmpleados%TYPE,
+w_CorreoEmpleados IN EMPLEADOS.CorreoEmpleados%TYPE,
+w_Salario IN EMPLEADOS.Salario%TYPE,
+w_Puesto IN EMPLEADOS.Puesto%TYPE)
+IS
+BEGIN
+INSERT INTO EMPLEADOS(NombreEmpleados, ApellidosEmpleados, FechaNacimiento, TelefonoEmpleados, CorreoEmpleados, Salario, Puesto)
+VALUES (w_NombreEmpleados, w_ApellidosEmpleados, w_FechaNacimiento, w_TelefonoEmpleados, w_CorreoEmpleados, w_Salario, w_Puesto);
+END contratar_empleado;
+/
+
+CREATE OR REPLACE PROCEDURE INSERTAR_USUARIO 
+  (P_USUARIO IN USUARIOS.USUARIO%TYPE,
+   P_PASS IN USUARIOS.PASS%TYPE
+   ) IS
+BEGIN
+  INSERT INTO USUARIOS(USUARIO,PASS)
+  VALUES (P_USUARIO,P_PASS);
+END INSERTAR_USUARIO;
+/
+
+--Modificar
+CREATE OR REPLACE PROCEDURE MODIFICAR_EMPLEADO
+(OID_EMPLEADO_A_MOD IN EMPLEADOS.OIDEMP%TYPE,
+ NOM_EMPLEADO_A_MOD IN EMPLEADOS.NombreEmpleados%TYPE,
+ APE_EMPLEADO_A_MOD IN EMPLEADOS.ApellidosEmpleados%TYPE,
+ FN_EMPLEADO_A_MOD IN EMPLEADOS.FechaNacimiento%TYPE,
+ TEL_EMPLEADO_A_MOD IN EMPLEADOS.TelefonoEmpleados%TYPE,
+ CORREO_EMPLEADO_A_MOD IN EMPLEADOS.CorreoEmpleados%TYPE,
+ SALARIO_EMPLEADO_A_MOD IN EMPLEADOS.Salario%TYPE,
+ PUESTO_EMPLEADO_A_MOD IN EMPLEADOS.Puesto%TYPE
+ ) IS
+BEGIN
+  UPDATE EMPLEADOS SET OIDEMP=OID_EMPLEADO_A_MOD,
+  NombreEmpleados=NOM_EMPLEADO_A_MOD,
+  ApellidosEmpleados=APE_EMPLEADO_A_MOD,
+  FechaNacimiento=FN_EMPLEADO_A_MOD,
+  TelefonoEmpleados=TEL_EMPLEADO_A_MOD,
+  CorreoEmpleados=CORREO_EMPLEADO_A_MOD,
+  Salario=SALARIO_EMPLEADO_A_MOD,
+  Puesto=PUESTO_EMPLEADO_A_MOD
+  WHERE OIDEMP = OID_EMPLEADO_A_MOD;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE MODIFICAR_PROVEEDOR
+(OID_PROVEEDOR_A_MOD IN PROVEEDORES.OID_PROV%TYPE,
+ NOM_PROVEEDOR_A_MOD IN PROVEEDORES.NombreProveedores%TYPE,
+ APE_PROVEEDOR_A_MOD IN PROVEEDORES.ApellidosProveedores%TYPE,
+ CORREO_PROVEEDOR_A_MOD IN PROVEEDORES.CorreoProveedores%TYPE,
+ TEL_PROVEEDOR_A_MOD IN proveedores.telefonoproveedores%TYPE) IS
+BEGIN
+  UPDATE PROVEEDORES SET 
+  OID_PROV=OID_PROVEEDOR_A_MOD,
+  nombreproveedores=nom_proveedor_a_mod,
+  apellidosproveedores=ape_proveedor_a_mod,
+  correoproveedores=correo_proveedor_a_mod,
+  telefonoproveedores=tel_proveedor_a_mod
+  WHERE OID_PROV = OID_PROVEEDOR_A_MOD;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE MODIFICAR_RESERVA
+(OIDRES_A_MOD IN RESERVAS.OIDRES%TYPE,
+ NombreClientes_a_mod IN RESERVAS.NombreClientes%TYPE,
+ ApellidosClientes_a_mod IN RESERVAS.ApellidosClientes%TYPE,
+ TelefonoClientes_a_mod IN RESERVAS.TelefonoClientes%TYPE,
+ NumeroPersona_a_mod IN RESERVAS.NumeroPersona%TYPE,
+ HoraReserva_a_mod IN RESERVAS.HoraReserva%TYPE) IS
+BEGIN
+  UPDATE RESERVAS SET 
+  RESERVAS.NombreClientes=NombreClientes_a_mod,
+  RESERVAS.ApellidosClientes=ApellidosClientes_a_mod,
+  RESERVAS.TelefonoClientes=TelefonoClientes_a_mod,
+  RESERVAS.NumeroPersona=NumeroPersona_a_mod,
+  RESERVAS.HoraReserva=HoraReserva_a_mod
+  WHERE OIDRES = OIDRES_A_MOD;
+  
+END;
+/
+
+
+--Deletes
+CREATE OR REPLACE PROCEDURE QUITAR_PRODUCTO (OID_PRODUCTO_A_QUITAR IN PRODUCTOS.OIDPROD%TYPE) IS
+BEGIN
+    DELETE FROM PRODUCTOS WHERE OIDPROD = OID_PRODUCTO_A_QUITAR;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE QUITAR_GASTO(OID_GASTO_A_QUITAR IN AGUALUZ.OIDAL%TYPE) IS
+BEGIN
+    DELETE FROM AGUALUZ WHERE OIDAL = OID_GASTO_A_QUITAR;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE QUITAR_TAPA (OID_TAPA_A_QUITAR IN TAPAS.OIDTAP%TYPE) IS
+BEGIN
+    DELETE FROM TAPAS WHERE OIDTAP = OID_TAPA_A_QUITAR;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE QUITAR_BEBIDA (OID_BEBIDA_A_QUITAR IN BEBIDAS.OIDBEB%TYPE) IS
+BEGIN
+    DELETE FROM BEBIDAS WHERE OIDBEB = OID_BEBIDA_A_QUITAR;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE QUITAR_PRODUCTO (OID_PRODUCTO_A_QUITAR IN PRODUCTOS.OIDPROD%TYPE) IS
+BEGIN
+    DELETE FROM PRODUCTOS WHERE OIDPROD = OID_PRODUCTO_A_QUITAR;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE QUITAR_PEDIDO (OID_PEDIDO_A_QUITAR IN LINEASPEDIDO.OIDLP%TYPE) IS
+BEGIN
+    DELETE FROM LINEASPEDIDO WHERE OIDLP = OID_PEDIDO_A_QUITAR;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE QUITAR_EMPLEADO (OID_EMPLEADO_A_QUITAR IN EMPLEADOS.OIDEMP%TYPE) IS
+BEGIN
+    DELETE FROM EMPLEADOS WHERE OIDEMP = OID_EMPLEADO_A_QUITAR;
+END;
+/
+
+
+CREATE OR REPLACE PROCEDURE QUITAR_PROVEEDOR (OID_PROVEEDOR_A_QUITAR IN PROVEEDORES.OID_PROV%TYPE) IS
+BEGIN
+    DELETE FROM PROVEEDORES WHERE OID_PROV = OID_PROVEEDOR_A_QUITAR;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE QUITAR_RESERVA (OID_RESERVA_A_QUITAR IN RESERVAS.OIDRES%TYPE) IS
+BEGIN
+    DELETE FROM RESERVAS WHERE OIDRES = OID_RESERVA_A_QUITAR;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE QUITAR_CUENTA (OID_CUENTA_A_QUITAR IN LINEASCUENTA.OIDLC%TYPE) IS
+BEGIN
+    DELETE FROM LINEASCUENTA WHERE OIDLC = OID_CUENTA_A_QUITAR;
+END;
+/
+
+
+
+--REQUISITO FUNCIONAL 1.1
+CREATE OR REPLACE FUNCTION CantidadProducto 
+    (w_NombreProductos IN PRODUCTOS.NombreProductos%TYPE)
+    RETURN NUMBER
+    IS w_Cantidad  PRODUCTOS.CantidadProductos%TYPE; 
+BEGIN
+    SELECT CantidadProductos INTO w_Cantidad
+    FROM Productos
+    WHERE NombreProductos = w_NombreProductos;
+    RETURN w_Cantidad;
+END CantidadProducto;
+/
+--REQUISITO FUNCIONAL 1.2
+CREATE OR REPLACE FUNCTION CantidadProductoFinal 
+    (w_NombreProductos IN PRODUCTOS.NombreProductos%TYPE)
+    RETURN NUMBER
+    IS w_Cantidad  PRODUCTOS.CantidadProductos%TYPE; 
+    w_CantidadUsada LINEASCUENTA.CantidadLC%TYPE; 
+BEGIN
+    SELECT CantidadProductos INTO w_Cantidad 
+    FROM Productos
+    WHERE NombreProductos = w_NombreProductos;
+
+    SELECT CantidadLC INTO w_CantidadUsada
+    from Lineascuenta A full outer join Tapas B on A.OIDTAP = B.OIDTAP Full outer join Productos C on B.OIDTAP=C.OIDProd
+    WHERE NombreTapas = w_NombreProductos;
+
+    IF(w_CantidadUsada is null or w_CantidadUsada = '')
+        THEN RETURN w_Cantidad;
+    ELSE RETURN w_Cantidad - w_Cantidadusada;
+    END IF;
+END CantidadProductoFinal;
+/
+--REQUISITO FUNCIONAL 2.1
+
+SELECT * FROM Proveedores;
+
+--REQUISITO FUNCIONAL 3.1
+CREATE OR REPLACE FUNCTION GastoTotal
+    (w_mes IN LUZ.MesLuz%TYPE)
+    RETURN NUMBER
+    IS w_gastoLuz LUZ.CantidadLuz%TYPE;
+    w_gastoAgua AGUA.CantidadAgua%TYPE;
+    w_gastoAlquiler LOCALES.Alquiler%TYPE;
+    w_cantidadPedido LINEASPEDIDO.CantidadLP%TYPE;
+    w_precio LINEAsPEDIDO.PrecioLP%TYPE;
+BEGIN
+    SELECT CantidadAgua INTO w_gastoAgua FROM Agua WHERE w_mes = MesAgua;
+        
+    SELECT CantidadLuz INTO w_gastoLuz FROM Luz WHERE w_mes = MesLuz;
+
+    SELECT Alquiler into w_gastoAlquiler FROM Locales WHERE w_mes = MesLocal;
+
+    SELECT CantidadLP, PrecioLP INTO w_cantidadPedido, w_precio FROM lineasPedido WHERE w_mes = MesLP;
+    
+    RETURN w_gastoAgua + w_gastoLuz + w_gastoAlquiler + (w_precio * w_cantidadPedido);
+END GastoTotal;
+/
+--REQUISITO FUNCIONAL 4.1
+
+CREATE OR REPLACE FUNCTION Ingresos
+    (w_mes IN LINEASCUENTA.MesLC%TYPE)
+    RETURN NUMBER
+    IS w_precioBebida BEBIDAS.PrecioBebidas%TYPE;
+    w_precioTapa TAPAS.PrecioTapas%TYPE;
+    w_cantidad LINEASCUENTA.CantidadLC%TYPE;
+    w_nombre LINEASCUENTA.NombreLC%TYPE;
+BEGIN
+    SELECT PrecioBebidas, NombreBebidas INTO w_precioBebida, w_nombre FROM Bebidas, LineasCuenta WHERE w_mes = MesLC AND w_nombre = NombreLC;
+        
+    SELECT PrecioTapas, NombreTapas INTO w_precioTapa, w_nombre FROM Tapas, LineasCuenta WHERE w_mes = MesLC AND w_nombre = NombreLC;
+
+    SELECT CantidadLC into w_cantidad FROM LineasCuenta WHERE w_mes = MesLC;
+    
+    RETURN (w_precioBebida * w_cantidad) + (w_precioTapa * w_cantidad);
+END Ingresos;
+/
+--REQUISITO FUNCIONAL 4.2
+
+CREATE OR REPLACE FUNCTION Beneficio
+    (w_mes IN LINEASCUENTA.MesLC%TYPE)
+    RETURN NUMBER
+    IS w_ingresos TAPAS.PrecioTapas%TYPE;
+    w_gasto TAPAS.PrecioTapas%TYPE;
+BEGIN 
+    SELECT Ingresos(w_mes) INTO w_ingresos FROM dual;
+    SELECT GastoTotal(w_mes) INTO w_gasto FROM dual;
+    RETURN w_ingresos - w_gasto;
+END Beneficio;
+/
+--REQUISITO FUNCIONAL 5.1
+SELECT * FROM Empleados;
+
+--REQUISITO FUNCIONAL 6.1
+SELECT OIDMES FROM Mesas WHERE Disponibilidad = 'Disponible';
+
